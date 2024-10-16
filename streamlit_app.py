@@ -117,7 +117,7 @@ if page == pages[2]:
         df_year = df[df['year'] == year]
         # Get top 10 and bottom 10 countries
         top_10 = df_year.nlargest(10, 'Ladder score')
-        bottom_10 = df_year.nsmallest(10, 'Ladder score')
+        bottom_10 = df_year.nsmallest(10, 'Ladder score').sort_values('Ladder score', ascending=False)
         #Combine datasets
         plot_data = pd.concat([top_10, bottom_10])
         # Create category colum
@@ -132,6 +132,7 @@ if page == pages[2]:
             color_discrete_map={'Top 10': 'green', 'Bottom 10': 'red'},
             height=600,
             text='Ladder score')
+            category_orders={"Country name": plot_data['Country name'].tolist()})
         fig.update_layout(xaxis_tickangle=-45)
         fig.update_traces(texttemplate='%{text:.2f}', textposition='outside')
         return fig
