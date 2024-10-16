@@ -121,7 +121,7 @@ if page == pages[2]:
         #Combine datasets
         plot_data = pd.concat([top_10, bottom_10])
         # Create category colum
-        plot_data['Category'] = ['Happiest' if x in top_10.index else 'Unhappiest' for x in plot_data.index]
+        plot_data['Category'] = ['Top 10' if x in top_10.index else 'Bottom 10' for x in plot_data.index]
         #Create the plot
         fig = px.bar(plot_data, 
             x='Country name',  
