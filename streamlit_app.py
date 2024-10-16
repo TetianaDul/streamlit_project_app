@@ -131,7 +131,7 @@ if page == pages[2]:
             labels={'Country name': 'Country', 'Ladder score': 'Happiness Score'},
             color_discrete_map={'Top 10': 'green', 'Bottom 10': 'red'},
             height=600,
-            text='Ladder score')
+            text='Ladder score'),
             category_orders={"Country name": plot_data['Country name'].tolist()})
         fig.update_layout(xaxis_tickangle=-45)
         fig.update_traces(texttemplate='%{text:.2f}', textposition='outside')
