@@ -195,7 +195,10 @@ if page == pages[2]:
     st.subheader('Average hapiness score by regions in 2021') 
     
     # Calculate average ladder score by region
-    region_avg = whp_2021_report.groupby('Regional indicator')['Ladder score'].mean().reset_index()
+    region_avg = (whp_2021_report.groupby('Regional indicator')['Ladder score']
+              .mean()
+              .sort_values(ascending=False)
+              .reset_index())
 
     # Create the bar plot
     fig = px.bar(
