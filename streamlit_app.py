@@ -172,9 +172,7 @@ if page == pages[2]:
         title={
             'text': 'Happiness by regions',
             'y':0.95,
-            'x':0.5,
-            'xanchor': 'center',
-            'yanchor': 'top'
+            'x':0.5
         },
         showlegend=False,
         xaxis_tickangle=-45,
