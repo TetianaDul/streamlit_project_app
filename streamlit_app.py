@@ -174,7 +174,7 @@ if page == pages[2]:
             'text': 'Happiness by regions',
             'y':0.95,
             'x':0.5,
-            'xanchor': 'left',
+            'xanchor': 'center',
             'yanchor': 'top'
         },
         showlegend=False,
@@ -209,7 +209,8 @@ if page == pages[2]:
             'Regional indicator': '',
             'Ladder score': 'Average Ladder Score'
         },
-        title='Average Happiness Score by Region'
+        title='Average Happiness Score by Region',
+        text='Ladder score'  # This adds the numbers on top of the bars
     )
 
     # Customize the layout
@@ -227,6 +228,87 @@ if page == pages[2]:
 
     # Add gridlines
     fig.update_yaxes(
+        gridcolor='lightgrey',
+        gridwidth=0.5
+    )
+    # add text position to be above bars
+    fig.update_traces(textposition='outside')
+    # Display the plot
+    st.plotly_chart(fig, use_container_width=True)
+
+
+    # Add a histogram of hapiness score distributions acrosscountries
+    st.subheader('Hapiness score distribution across countries in 2021')
+    
+        import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+    import numpy as np
+    from scipy.stats import gaussian_kde
+
+    # Create histogram data
+    hist = np.histogram(whp_2021_report['Ladder score'], bins=20)
+    bin_counts = hist[0]
+    bin_edges = hist[1]
+    bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2
+
+    # Calculate KDE for smooth curve
+    kde = gaussian_kde(whp_2021_report['Ladder score'])
+    x_range = np.linspace(whp_2021_report['Ladder score'].min(), 
+                     whp_2021_report['Ladder score'].max(), 
+                     200)
+    kde_values = kde(x_range)
+
+    # Create the figure
+    fig = go.Figure()
+
+    # Add histogram
+    fig.add_trace(go.Bar(
+        x=bin_centers,
+        y=bin_counts,
+        name='Count',
+        text=bin_counts,  # Add counts on top of bars
+        textposition='outside',
+        marker_color='lightblue',
+        hovertemplate='Happiness Score: %{x:.2f}<br>Number of Countries: %{y}<extra></extra>'
+    ))
+
+    # Add KDE line
+    fig.add_trace(go.Scatter(
+        x=x_range,
+        y=kde_values * len(whp_2021_report) * (bin_edges[1] - bin_edges[0]),  # Scale KDE to match histogram height
+        name='Density',
+        line=dict(color='rgba(255, 0, 0, 0.6)', width=2),
+        hovertemplate='Happiness Score: %{x:.2f}<extra></extra>'
+    ))
+
+    # Update layout
+    fig.update_layout(
+        title={
+            'text': 'Distribution of Happiness Scores Across Countries',
+            'x': 0.5,
+            'xanchor': 'center',
+            'y': 0.95
+        },
+        xaxis_title='Happiness Score',
+        yaxis_title='Number of Countries',
+        plot_bgcolor='white',
+        bargap=0.1,
+        showlegend=True,
+        legend=dict(
+            yanchor="top",
+            y=0.99,
+            xanchor="left",
+            x=0.01
+        ),
+        height=600
+    )
+
+    # Add gridlines
+    fig.update_yaxes(
+        gridcolor='lightgrey',
+        gridwidth=0.5
+    )
+    fig.update_xaxes(
         gridcolor='lightgrey',
         gridwidth=0.5
     )
