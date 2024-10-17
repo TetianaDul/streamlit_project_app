@@ -188,11 +188,4 @@ if page == pages[2]:
             range=[2, 8]  # Similar to the original plot's range
         )
 
-        return fig
-
-    def main():
-        fig = create_happiness_scatter(whp_2021_report)
         st.plotly_chart(fig, use_container_width=True)
-
-    if __name__ == "__main__":
-        main()
