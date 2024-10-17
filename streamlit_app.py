@@ -151,42 +151,41 @@ if page == pages[2]:
     st.subheader('Hapiness scores in different regions in 2021')
     import plotly.express as px
 
-    def create_happiness_scatter(whp_2021_report):
-        # Create the scatter plot
-        whp_2021_report = pd.read_csv("world-happiness-report-2021.csv")
-        fig = px.scatter(
-            whp_2021_report,
-            x="Regional indicator",
-            y="Ladder score",
-            hover_data=["Country name"],
-            color="Regional indicator",
-            labels={
-                "Regional indicator": "",
-                "Ladder score": "Ladder score",
-                "Country name": "Country"
-            },
-            height=600
-        )
+    
+    whp_2021_report = pd.read_csv("world-happiness-report-2021.csv")
+    fig = px.scatter(
+        whp_2021_report,
+        x="Regional indicator",
+        y="Ladder score",
+        hover_data=["Country name"],
+        color="Regional indicator",
+        labels={
+            "Regional indicator": "",
+            "Ladder score": "Ladder score",
+            "Country name": "Country"
+        },
+        height=600
+    )
 
-        # Customize the layout
-        fig.update_layout(
-            title={
-                'text': 'Happiness by regions',
-                'y':0.95,
-                'x':0.5,
-                'xanchor': 'center',
-                'yanchor': 'top'
-            },
-            showlegend=False,
-            xaxis_tickangle=-45,
-            plot_bgcolor='white'
-        )
+    # Customize the layout
+    fig.update_layout(
+        title={
+            'text': 'Happiness by regions',
+            'y':0.95,
+            'x':0.5,
+            'xanchor': 'center',
+            'yanchor': 'top'
+        },
+        showlegend=False,
+        xaxis_tickangle=-45,
+        plot_bgcolor='white'
+    )
 
-        # Add gridlines
-        fig.update_yaxes(
-            gridcolor='lightgrey',
-            gridwidth=0.5,
-            range=[2, 8]  # Similar to the original plot's range
-        )
-        return fig
-        st.plotly_chart(fig, use_container_width=True)
+    # Add gridlines
+    fig.update_yaxes(
+        gridcolor='lightgrey',
+        gridwidth=0.5,
+        range=[2, 8]  # Similar to the original plot's range
+    )
+    
+    st.plotly_chart(fig, use_container_width=True)
