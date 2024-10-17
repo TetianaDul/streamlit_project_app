@@ -148,6 +148,7 @@ if page == pages[2]:
     fig = create_plot(selected_year)
     st.plotly_chart(fig, use_container_width=True)
 
+    #a scatter plot of hapiness scores by regions in 2021
     st.subheader('Hapiness scores in different regions in 2021')
     import plotly.express as px
 
@@ -185,7 +186,47 @@ if page == pages[2]:
     fig.update_yaxes(
         gridcolor='lightgrey',
         gridwidth=0.5,
-        range=[2, 8]  # Similar to the original plot's range
+        range=[2, 8]
     )
     
+    st.plotly_chart(fig, use_container_width=True)
+
+    #barplot of an average hapiness scores by region
+    st.subheader('Average hapiness score by regions in 2021') 
+    
+    # Calculate average ladder score by region
+    region_avg = whp_2021_report.groupby('Regional indicator')['Ladder score'].mean().reset_index()
+
+    # Create the bar plot
+    fig = px.bar(
+        region_avg,
+        x='Regional indicator',
+        y='Ladder score',
+        labels={
+            'Regional indicator': '',
+            'Ladder score': 'Average Ladder Score'
+        },
+        title='Average Happiness Score by Region'
+    )
+
+    # Customize the layout
+    fig.update_layout(
+        title={
+            'x': 0.5,
+            'xanchor': 'center',
+            'y': 0.95
+        },
+        xaxis_tickangle=-45,
+        plot_bgcolor='white',
+        showlegend=False,
+        height=600
+    )
+
+    # Add gridlines
+    fig.update_yaxes(
+        gridcolor='lightgrey',
+        gridwidth=0.5
+    )
+
+    # Display the plot
     st.plotly_chart(fig, use_container_width=True)
