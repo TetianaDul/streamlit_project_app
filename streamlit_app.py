@@ -152,6 +152,7 @@ if page == pages[2]:
 
     def create_happiness_scatter(whp_2021_report):
         # Create the scatter plot
+        whp_2021_report = pd.read_csv("world-happiness-report-2021.csv")
         fig = px.scatter(
             whp_2021_report,
             x="Regional indicator",
@@ -190,7 +191,6 @@ if page == pages[2]:
         return fig
 
     def main():
-        # Assuming whp_2021_report is your dataframe
         fig = create_happiness_scatter(whp_2021_report)
         st.plotly_chart(fig, use_container_width=True)
 
