@@ -68,9 +68,11 @@ if page == pages[1]:
         st.dataframe(whp_historical.head())
         """- The dataset contains about 1,75% of missing values."""
     st.subheader("Data Merging and cleaning")
-    """- Rename needed columns and bring both datasets to the same shape.
+    """
+    - Rename needed columns and bring both datasets to the same shape.
     - Combine 2021 report with historical data dataset.
-    - Clean the data by removing rows with missing values."""
+    - Clean the data by removing rows with missing values.
+    """
     
 
     whp_full = pd.read_csv("whp_full.csv")
@@ -145,3 +147,44 @@ if page == pages[2]:
     # Create and display the plot
     fig = create_plot(selected_year)
     st.plotly_chart(fig, use_container_width=True)
+
+    st.subheader('Hapiness scores in different regions in 2021')
+    
+    def create_happiness_scatter(whp_2021_report):
+        # Create the scatter plot
+        fig = px.scatter(
+            whp_2021_report,
+            x="Regional indicator",
+            y="Ladder score",
+            hover_data=["Country name"],
+            color="Regional indicator",
+            labels={
+                "Regional indicator": "",
+                "Ladder score": "Ladder score",
+                "Country name": "Country"
+            },
+            height=600
+        )
+
+        # Customize the layout
+        fig.update_layout(
+            title={
+                'text': 'Happiness by regions',
+                'y':0.95,
+                'x':0.5,
+                'xanchor': 'center',
+                'yanchor': 'top'
+            },
+            showlegend=False,
+            xaxis_tickangle=-45,
+            plot_bgcolor='white'
+        )
+
+        # Add gridlines
+        fig.update_yaxes(
+            gridcolor='lightgrey',
+            gridwidth=0.5,
+            range=[2, 8]  # Similar to the original plot's range
+        )
+
+        return fig
