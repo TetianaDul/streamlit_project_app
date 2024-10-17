@@ -240,7 +240,7 @@ if page == pages[2]:
     # Add a histogram of hapiness score distributions acrosscountries
     st.subheader('Hapiness score distribution across countries in 2021')
     
-        import plotly.graph_objects as go
+    import plotly.graph_objects as go
     from plotly.subplots import make_subplots
     import numpy as np
     from scipy.stats import gaussian_kde
