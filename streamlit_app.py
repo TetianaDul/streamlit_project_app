@@ -268,7 +268,7 @@ if page == pages[2]:
         name='Count',
         text=bin_counts,  # Add counts on top of bars
         textposition='outside',
-        marker_color='lightblue',
+        marker_color='blue',
         hovertemplate='Happiness Score: %{x:.2f}<br>Number of Countries: %{y}<extra></extra>'
     ))
 
