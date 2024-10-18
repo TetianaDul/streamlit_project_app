@@ -237,7 +237,7 @@ if page == pages[2]:
     st.plotly_chart(fig, use_container_width=True)
 
 
-    #barplot of an average hapiness scores by region over the years
+    #histogram of hapiness score distribution over the years
     st.subheader('Hapiness score distribution across countries over the years')
 
     import plotly.graph_objects as go
@@ -256,7 +256,7 @@ if page == pages[2]:
 
 
     # Filter data for selected year
-    year_data = df[df['year'] == selected_year]['numerical_columns']
+    year_data = df[df['year'] == selected_year]['Ladder score']
 
     # Create histogram data
     hist = np.histogram(year_data, bins=20)
