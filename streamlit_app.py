@@ -357,9 +357,6 @@ if page == pages[2]:
     year_data = df[df['year'] == selected_year][numerical_columns]
     corr_matrix = year_data.corr()
 
-    # Create a mask for the upper triangle to avoid redundancy
-    mask = np.triu(np.ones_like(corr_matrix))
-
     # Create the heatmap
     fig = go.Figure()
 
