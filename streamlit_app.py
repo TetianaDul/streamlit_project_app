@@ -362,8 +362,8 @@ if page == pages[2]:
 
     fig.add_trace(go.Heatmap(
         z=corr_matrix,
-        x=factors,
-        y=factors,
+        x=numerical_columns,
+        y=numerical_columns,
         text=np.round(corr_matrix, 2),
         texttemplate='%{text}',
         textfont={"size": 10},
