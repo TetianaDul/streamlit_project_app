@@ -254,8 +254,9 @@ if page == pages[2]:
                          max_value=int(max(years)), 
                          value=int(max(years)))  # Default to most recent year
 
+
     # Filter data for selected year
-    year_data = df[df['year'] == selected_year]['Ladder score']
+    year_data = df[df['year'] == selected_year]['numerical_columns']
 
     # Create histogram data
     hist = np.histogram(year_data, bins=20)
@@ -346,13 +347,14 @@ if page == pages[2]:
                             value=int(max(years)),
                             key='correlation_year_slider')  # Added unique key
 
-    # Define the factors to include in correlation matrix
-    factors = ['Ladder score', 'GDP per capita', 'Social support', 
-            'Healthy life expectancy', 'Freedom to make life choices', 
-            'Generosity', 'Perceptions of corruption']
+    # Get all the numerical columns 
+    numerical_columns = df.select_dtypes(include=[np.number]).columns.tolist()
+    # Remove 'year' from the numerical columns
+    if 'year' in numerical_columns:
+    numerical_columns.remove('year')
 
     # Filter data for selected year and calculate correlation matrix
-    year_data = df[df['year'] == selected_year][factors]
+    year_data = df[df['year'] == selected_year][numerical_columns]
     corr_matrix = year_data.corr()
 
     # Create a mask for the upper triangle to avoid redundancy
@@ -400,11 +402,11 @@ if page == pages[2]:
 
     # Find strongest positive and negative correlations
     correlations = []
-    for i in range(len(factors)):
-        for j in range(i+1, len(factors)):
+    for i in range(len(numerical_columns)):
+        for j in range(i+1, len(numerical_columns)):
             correlations.append({
-                'factor1': factors[i],
-                'factor2': factors[j],
+                'factor1': numerical_columns[i],
+                'factor2': numerical_columns[j],
                 'correlation': corr_matrix.iloc[i, j]
             })
 
