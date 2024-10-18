@@ -394,17 +394,17 @@ if page == pages[2]:
         }
     )
 
-        # Display key insights
-        st.write("### Key Correlations")
-        # Find strongest positive and negative correlations
-        correlations = []
-        for i in range(len(factors)):
-            for j in range(i+1, len(factors)):
-                correlations.append({
-                    'factor1': factors[i],
-                    'factor2': factors[j],
-                    'correlation': corr_matrix.iloc[i, j]
-                })
+    # Display key insights
+    st.write("### Key Correlations")
+    # Find strongest positive and negative correlations
+    correlations = []
+    for i in range(len(factors)):
+        for j in range(i+1, len(factors)):
+            correlations.append({
+                'factor1': factors[i],
+                'factor2': factors[j],
+                'correlation': corr_matrix.iloc[i, j]
+            })
 
     correlations.sort(key=lambda x: abs(x['correlation']), reverse=True)
 
