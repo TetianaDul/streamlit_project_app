@@ -339,11 +339,12 @@ if page == pages[2]:
     # Get unique years for the slider
     years = sorted(df['year'].unique())
 
-    # Create year selector
+    # Create year selector with a unique key
     selected_year = st.slider('Select Year', 
                             min_value=int(min(years)), 
                             max_value=int(max(years)), 
-                            value=int(max(years)))
+                            value=int(max(years)),
+                            key='correlation_year_slider')  # Added unique key
 
     # Define the factors to include in correlation matrix
     factors = ['Ladder score', 'GDP per capita', 'Social support', 
@@ -364,11 +365,11 @@ if page == pages[2]:
         z=corr_matrix,
         x=factors,
         y=factors,
-        text=np.round(corr_matrix, 2),  # Show correlation values
+        text=np.round(corr_matrix, 2),
         texttemplate='%{text}',
         textfont={"size": 10},
-        colorscale='RdBu',  # Red-Blue diverging colorscale
-        zmid=0,  # Center the colorscale at 0
+        colorscale='RdBu',
+        zmid=0,
         zmin=-1,
         zmax=1,
         hoverongaps=False,
@@ -394,8 +395,9 @@ if page == pages[2]:
         }
     )
 
-    # Display key insights
-    st.write("### Key Correlations")
+    # Display key insights with unique keys for markdown
+    st.markdown("### Key Correlations", key='corr_header')
+
     # Find strongest positive and negative correlations
     correlations = []
     for i in range(len(factors)):
@@ -408,11 +410,14 @@ if page == pages[2]:
 
     correlations.sort(key=lambda x: abs(x['correlation']), reverse=True)
 
-    # Display top 3 strongest correlations
-    st.write("Strongest relationships:")
+    # Display top 3 strongest correlations with unique keys
+    st.markdown("Strongest relationships:", key='strong_rel_header')
     for i in range(3):
         corr = correlations[i]
-        st.write(f"{corr['factor1']} vs {corr['factor2']}: {corr['correlation']:.3f}")
+        st.markdown(
+            f"{corr['factor1']} vs {corr['factor2']}: {corr['correlation']:.3f}", 
+            key=f'correlation_{i}'
+        )
 
     # Display the plot
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True, key='correlation_matrix')
