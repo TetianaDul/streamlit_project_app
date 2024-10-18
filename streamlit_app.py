@@ -327,3 +327,92 @@ if page == pages[2]:
 
     # Display the plot
     st.plotly_chart(fig, use_container_width=True)
+
+
+    #add a correlation heatmap over the years
+    st.subheader('Correlation of different factors to hapiness over the years')
+
+    import plotly.graph_objects as go
+    import numpy as np
+    import streamlit as st
+
+    # Get unique years for the slider
+    years = sorted(df['year'].unique())
+
+    # Create year selector
+    selected_year = st.slider('Select Year', 
+                            min_value=int(min(years)), 
+                            max_value=int(max(years)), 
+                            value=int(max(years)))
+
+    # Define the factors to include in correlation matrix
+    factors = ['Ladder score', 'GDP per capita', 'Social support', 
+            'Healthy life expectancy', 'Freedom to make life choices', 
+            'Generosity', 'Perceptions of corruption']
+
+    # Filter data for selected year and calculate correlation matrix
+    year_data = df[df['year'] == selected_year][factors]
+    corr_matrix = year_data.corr()
+
+    # Create a mask for the upper triangle to avoid redundancy
+    mask = np.triu(np.ones_like(corr_matrix))
+
+    # Create the heatmap
+    fig = go.Figure()
+
+    fig.add_trace(go.Heatmap(
+        z=corr_matrix,
+        x=factors,
+        y=factors,
+        text=np.round(corr_matrix, 2),  # Show correlation values
+        texttemplate='%{text}',
+        textfont={"size": 10},
+        colorscale='RdBu',  # Red-Blue diverging colorscale
+        zmid=0,  # Center the colorscale at 0
+        zmin=-1,
+        zmax=1,
+        hoverongaps=False,
+        hovertemplate='%{x}<br>%{y}<br>Correlation: %{z:.2f}<extra></extra>'
+    ))
+
+    # Update layout
+    fig.update_layout(
+        title={
+            'text': f'Correlation Matrix of Happiness Factors ({selected_year})',
+            'x': 0.5,
+            'xanchor': 'center',
+            'y': 0.95
+        },
+        width=800,
+        height=800,
+        xaxis={
+            'tickangle': -45,
+            'side': 'bottom'
+        },
+        yaxis={
+            'tickangle': 0,
+        }
+    )
+
+        # Display key insights
+        st.write("### Key Correlations")
+        # Find strongest positive and negative correlations
+        correlations = []
+        for i in range(len(factors)):
+            for j in range(i+1, len(factors)):
+                correlations.append({
+                    'factor1': factors[i],
+                    'factor2': factors[j],
+                    'correlation': corr_matrix.iloc[i, j]
+                })
+
+    correlations.sort(key=lambda x: abs(x['correlation']), reverse=True)
+
+    # Display top 3 strongest correlations
+    st.write("Strongest relationships:")
+    for i in range(3):
+        corr = correlations[i]
+        st.write(f"{corr['factor1']} vs {corr['factor2']}: {corr['correlation']:.3f}")
+
+    # Display the plot
+    st.plotly_chart(fig, use_container_width=True)
