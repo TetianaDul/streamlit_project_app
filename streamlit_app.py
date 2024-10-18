@@ -392,8 +392,6 @@ if page == pages[2]:
         }
     )
 
-    # Display key insights with unique keys for markdown
-    st.markdown("### Key Correlations")
 
     # Find strongest positive and negative correlations
     correlations = []
