@@ -318,7 +318,7 @@ if page == pages[2]:
 
 
     #barplot of an average hapiness scores by region over the years
-    st.subheader('Average hapiness score by regions over the years')
+    st.subheader('Hapiness score distribution across countries over the years')
 
     import plotly.graph_objects as go
     import numpy as np
@@ -358,7 +358,7 @@ if page == pages[2]:
         name='Count',
         text=bin_counts,  # Add counts on top of bars
         textposition='outside',
-        marker_color='lightblue',
+        marker_color='blue',
         hovertemplate='Happiness Score: %{x:.2f}<br>Number of Countries: %{y}<extra></extra>'
     ))
 
@@ -404,15 +404,6 @@ if page == pages[2]:
         gridwidth=0.5,
         zeroline=True
     )
-
-    # Display some summary statistics
-    st.write(f"""
-    ### Summary Statistics for {selected_year}
-    - Number of countries: {len(year_data)}
-    - Average happiness score: {year_data.mean():.2f}
-    - Median happiness score: {year_data.median():.2f}
-    - Standard deviation: {year_data.std():.2f}
-    """)
 
     # Display the plot
     st.plotly_chart(fig, use_container_width=True)
