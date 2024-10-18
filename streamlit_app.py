@@ -351,7 +351,7 @@ if page == pages[2]:
     numerical_columns = df.select_dtypes(include=[np.number]).columns.tolist()
     # Remove 'year' from the numerical columns
     if 'year' in numerical_columns:
-    numerical_columns.remove('year')
+        numerical_columns.remove('year')
 
     # Filter data for selected year and calculate correlation matrix
     year_data = df[df['year'] == selected_year][numerical_columns]
