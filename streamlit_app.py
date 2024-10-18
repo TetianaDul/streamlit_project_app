@@ -347,14 +347,12 @@ if page == pages[2]:
                             value=int(max(years)),
                             key='correlation_year_slider')  # Added unique key
 
-    # Get all the numerical columns 
-    numerical_columns = df.select_dtypes(include=[np.number]).columns.tolist()
-    # Remove 'year' from the numerical columns
-    if 'year' in numerical_columns:
-        numerical_columns.remove('year')
+    factors = ['Ladder score', 'Logged GDP per capita', 'Social support', 
+          'Healthy life expectancy', 'Freedom to make life choices', 
+          'Generosity', 'Perceptions of corruption']
 
     # Filter data for selected year and calculate correlation matrix
-    year_data = df[df['year'] == selected_year][numerical_columns]
+    year_data = df[df['year'] == selected_year][factors]
     corr_matrix = year_data.corr()
 
     # Create the heatmap
@@ -362,8 +360,8 @@ if page == pages[2]:
 
     fig.add_trace(go.Heatmap(
         z=corr_matrix,
-        x=numerical_columns,
-        y=numerical_columns,
+        x=factors,
+        y=factors,
         text=np.round(corr_matrix, 2),
         texttemplate='%{text}',
         textfont={"size": 10},
@@ -399,11 +397,11 @@ if page == pages[2]:
 
     # Find strongest positive and negative correlations
     correlations = []
-    for i in range(len(numerical_columns)):
-        for j in range(i+1, len(numerical_columns)):
+    for i in range(len(factors)):
+        for j in range(i+1, len(factors)):
             correlations.append({
-                'factor1': numerical_columns[i],
-                'factor2': numerical_columns[j],
+                'factor1': factors[i],
+                'factor2': factors[j],
                 'correlation': corr_matrix.iloc[i, j]
             })
 
