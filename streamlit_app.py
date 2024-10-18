@@ -232,7 +232,7 @@ if page == pages[2]:
         gridwidth=0.5
     )
     # add text position to be above bars
-    fig.update_traces(textposition='outside')
+    fig.update_traces(texttemplate='%{text:.2f}', textposition='outside')
     # Display the plot
     st.plotly_chart(fig, use_container_width=True)
 
@@ -312,6 +312,107 @@ if page == pages[2]:
         gridcolor='lightgrey',
         gridwidth=0.5
     )
+
+    # Display the plot
+    st.plotly_chart(fig, use_container_width=True)
+
+
+    #barplot of an average hapiness scores by region over the years
+    st.subheader('Average hapiness score by regions over the years')
+
+    import plotly.graph_objects as go
+    import numpy as np
+    from scipy.stats import gaussian_kde
+    import streamlit as st
+
+    # Get unique years for the slider
+    years = sorted(df['year'].unique())
+
+    # Create year selector
+    selected_year = st.slider('Select Year', 
+                         min_value=int(min(years)), 
+                         max_value=int(max(years)), 
+                         value=int(max(years)))  # Default to most recent year
+
+    # Filter data for selected year
+    year_data = df[df['year'] == selected_year]['Ladder score']
+
+    # Create histogram data
+    hist = np.histogram(year_data, bins=20)
+    bin_counts = hist[0]
+    bin_edges = hist[1]
+    bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2
+
+    # Calculate KDE for smooth curve
+    kde = gaussian_kde(year_data)
+    x_range = np.linspace(year_data.min(), year_data.max(), 200)
+    kde_values = kde(x_range)
+
+    # Create the figure
+    fig = go.Figure()
+
+    # Add histogram
+    fig.add_trace(go.Bar(
+        x=bin_centers,
+        y=bin_counts,
+        name='Count',
+        text=bin_counts,  # Add counts on top of bars
+        textposition='outside',
+        marker_color='lightblue',
+        hovertemplate='Happiness Score: %{x:.2f}<br>Number of Countries: %{y}<extra></extra>'
+    ))
+
+    # Add KDE line
+    fig.add_trace(go.Scatter(
+        x=x_range,
+        y=kde_values * len(year_data) * (bin_edges[1] - bin_edges[0]),  # Scale KDE to match histogram height
+        name='Density',
+        line=dict(color='rgba(255, 0, 0, 0.6)', width=2),
+        hovertemplate='Happiness Score: %{x:.2f}<extra></extra>'
+    ))
+
+    # Update layout
+    fig.update_layout(
+        title={
+            'text': f'Distribution of Happiness Scores Across Countries ({selected_year})',
+            'x': 0.5,
+            'xanchor': 'center',
+            'y': 0.95
+        },
+        xaxis_title='Happiness Score',
+        yaxis_title='Number of Countries',
+        plot_bgcolor='white',
+        bargap=0.1,
+        showlegend=True,
+        legend=dict(
+            yanchor="top",
+            y=0.99,
+            xanchor="left",
+            x=0.01
+        ),
+        height=600
+    )
+
+    # Add gridlines
+    fig.update_yaxes(
+        gridcolor='lightgrey',
+        gridwidth=0.5,
+        zeroline=True
+    )
+    fig.update_xaxes(
+        gridcolor='lightgrey',
+        gridwidth=0.5,
+        zeroline=True
+    )
+
+    # Display some summary statistics
+    st.write(f"""
+    ### Summary Statistics for {selected_year}
+    - Number of countries: {len(year_data)}
+    - Average happiness score: {year_data.mean():.2f}
+    - Median happiness score: {year_data.median():.2f}
+    - Standard deviation: {year_data.std():.2f}
+    """)
 
     # Display the plot
     st.plotly_chart(fig, use_container_width=True)
