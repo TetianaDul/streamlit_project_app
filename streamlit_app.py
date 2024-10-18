@@ -408,12 +408,11 @@ if page == pages[2]:
     correlations.sort(key=lambda x: abs(x['correlation']), reverse=True)
 
     # Display top 3 strongest correlations with unique keys
-    st.markdown("Strongest relationships:", key='strong_rel_header')
+    st.markdown("Strongest relationships:")
     for i in range(3):
         corr = correlations[i]
         st.markdown(
-            f"{corr['factor1']} vs {corr['factor2']}: {corr['correlation']:.3f}", 
-            key=f'correlation_{i}'
+            f"{corr['factor1']} vs {corr['factor2']}: {corr['correlation']:.3f}"
         )
 
     # Display the plot
