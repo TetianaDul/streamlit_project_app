@@ -416,12 +416,6 @@ if page == pages[2]:
     import streamlit as st
     import plotly.express as px
 
-    # Add a title to your Streamlit app
-    st.title("World Happiness Index Visualization")
-
-    # Add some description
-    st.write("This map shows the World Happiness Ladder Score by country over time.")
-
     # Create the visualization
     df_sorted = df.sort_values(by='year')
 
@@ -434,6 +428,13 @@ if page == pages[2]:
         animation_frame='year',
         color_continuous_scale=px.colors.sequential.Plasma,
         title="World Happiness Ladder Score by Country Over Time"
+    )
+    # Make the figure bigger by updating layout
+    fig.update_layout(
+        width=1400,  # Increase width
+        height=800,  # Increase height
+        title_x=0.5,  # Center the title
+        title_font_size=24  # Make title bigger
     )
 
     # Display the plot with expanded width
