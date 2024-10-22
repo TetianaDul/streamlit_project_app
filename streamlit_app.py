@@ -851,6 +851,8 @@ if page == pages[3]:
 if page == pages[4]:
     
     st.title('Hello, Streamlit! Whats UUUUP')
+    
+    from sklearn.ensemble import RandomForestRegressor
 
     X_train = pd.read_csv('X_train_encoded.csv')
     y_train = pd.read_csv('y_train.csv')
