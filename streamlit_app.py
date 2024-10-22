@@ -852,6 +852,11 @@ if page == pages[4]:
     
     st.title('Hello, Streamlit! Whats UUUUP')
 
+    X_train = pd.read_csv('X_train_encoded.csv')
+    y_train = pd.read_csv('y_train.csv')
+    X_test = pd.read_csv('X_test_encoded.csv')
+    y_test = pd.read_csv('y_test.csv')
+
     # Dropping all features except of the most important ones
     X_train.drop(['Country_encoded','Generosity','Perceptions of corruption','year'],axis=1,inplace=True)
     X_test.drop(['Country_encoded','Generosity','Perceptions of corruption','year'],axis=1,inplace=True)
