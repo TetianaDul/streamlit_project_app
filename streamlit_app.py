@@ -416,9 +416,6 @@ if page == pages[2]:
     import streamlit as st
     import plotly.express as px
 
-    # Set page to wide mode and remove padding
-    st.set_page_config(layout="wide")
-
     # Remove extra spacing and padding
     st.markdown("""
         <style>
