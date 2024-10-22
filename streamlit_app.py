@@ -453,8 +453,6 @@ if page == pages[2]:
     import pandas as pd
     import plotly.graph_objects as go
 
-    whp_2021_report = pd.read_csv('world_happiness_report_2021.csv')
-
     # Selecting relevant columns
     contribution_cols = [
         'Explained by: Log GDP per capita',
