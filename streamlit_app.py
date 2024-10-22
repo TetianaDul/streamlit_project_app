@@ -433,8 +433,15 @@ if page == pages[2]:
     fig.update_layout(
         width=1400,  # Increase width
         height=800,  # Increase height
-        title_x=0.5,  # Center the title
-        title_font_size=24  # Make title bigger
+        title={
+            'text': "World Happiness Ladder Score by Country Over Time",
+            'y':0.95,  # This moves the title up
+            'x':0.5,   # This centers the title
+            'xanchor': 'center',  # This ensures the center of the title is at the x position
+            'yanchor': 'top'      # This ensures the top of the title is at the y position
+        },
+        title_font_size=24,
+        margin=dict(t=100)
     )
 
     # Display the plot with expanded width
