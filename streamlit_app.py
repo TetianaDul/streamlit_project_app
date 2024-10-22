@@ -431,7 +431,7 @@ if page == pages[2]:
     )
     # Make the figure bigger by updating layout
     fig.update_layout( 
-        height=7000,
+        height=700,
         title={
             'text': "World Happiness Ladder Score by Country Over Time",
             'y':0.95,  
