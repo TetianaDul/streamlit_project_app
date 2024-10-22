@@ -459,8 +459,6 @@ if page == pages[2]:
             'yanchor': 'top'  
         },
         margin=dict(t=80, l=0, r=0, b=0),  # Minimized margins
-        paper_bgcolor='rgba(0,0,0,0)',      # Transparent background
-        plot_bgcolor='rgba(0,0,0,0)
         )
 
     # Display the plot with expanded width
