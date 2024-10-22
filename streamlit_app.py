@@ -872,7 +872,7 @@ if page == pages[4]:
     feat_df=pd.DataFrame(RFR.feature_importances_,index=X_train.columns,columns=['Values'])
     st.subheader("Feature Importances")
     # Body text
-    st.text("We chose the RFR model, because it has the best score compared \n to the others. The mot important feature importances are displayed in the \n following graph")
+    st.text("We chose the RFR model, because it has the best score compared \nto the others. The mot important feature importances are displayed in the \nfollowing graph")
     sorted_feat_df = feat_df.sort_values(by='Values',ascending=False)
 
     plt.figure(figsize=(8, 6))
