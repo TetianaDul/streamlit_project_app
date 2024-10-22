@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
 
+
 #read df file
 df=pd.read_csv("whp_full.csv")
 
