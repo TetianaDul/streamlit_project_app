@@ -407,3 +407,34 @@ if page == pages[2]:
 
     # Display the plot
     st.plotly_chart(fig, use_container_width=True, key='correlation_matrix')
+
+
+
+    #add a world map with the ladder score
+    st.subheader('Hapiness over the years on a world map')
+
+    import streamlit as st
+    import plotly.express as px
+
+    # Add a title to your Streamlit app
+    st.title("World Happiness Index Visualization")
+
+    # Add some description
+    st.write("This map shows the World Happiness Ladder Score by country over time.")
+
+    # Create the visualization
+    whp_full_sorted = whp_full.sort_values(by='year')
+
+    fig = px.choropleth(
+        whp_full_sorted,
+        locations='Country name',
+        locationmode='country names',
+        color='Ladder score',
+        hover_name='Country name',
+        animation_frame='year',
+        color_continuous_scale=px.colors.sequential.Plasma,
+        title="World Happiness Ladder Score by Country Over Time"
+    )
+
+    # Display the plot with expanded width
+    st.plotly_chart(fig, use_container_width=True)
