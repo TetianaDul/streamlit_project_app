@@ -444,3 +444,67 @@ if page == pages[2]:
 
     # Display the plot with expanded width
     st.plotly_chart(fig, use_container_width=True)
+
+
+    #add factor contribution to hapiness in 2021
+    st.subheader('Contribution of different factors to hapiness in 2021')
+
+    import streamlit as st
+    import pandas as pd
+    import plotly.graph_objects as go
+
+    whp_2021_report = pd.read_csv('world_happiness_report_2021.csv')
+
+    # Selecting relevant columns
+    contribution_cols = [
+        'Explained by: Log GDP per capita',
+        'Explained by: Social support',
+        'Explained by: Healthy life expectancy',
+        'Explained by: Freedom to make life choices',
+        'Explained by: Generosity',
+        'Explained by: Perceptions of corruption'
+    ]
+
+    # Sort by Ladder score
+    whp_2021_report_sorted = whp_2021_report.sort_values(by='Ladder score', ascending=False)
+
+    # Add a slider to select number of top/bottom countries
+    n_countries = st.slider('Select number of top/bottom countries to display', 
+                        min_value=5, 
+                        max_value=20, 
+                        value=10)
+
+    # Select top n and bottom n countries
+    top_n = whp_2021_report_sorted.head(n_countries)
+    bottom_n = whp_2021_report_sorted.tail(n_countries)
+
+    # Combine top n and bottom n into one DataFrame
+    whp_2021_report_filtered = pd.concat([top_n, bottom_n])
+
+    # Create plotting data
+    fig = go.Figure()
+
+    # Add each contribution as a separate bar
+    for col in contribution_cols:
+        fig.add_trace(go.Bar(
+            name=col.replace('Explained by: ', ''),
+            x=whp_2021_report_filtered['Country name'],
+            y=whp_2021_report_filtered[col],
+        ))
+
+    # Update layout
+    fig.update_layout(
+        barmode='stack',
+        title=f'Contribution of Factors to Ladder Score for Top {n_countries} and Bottom {n_countries} Countries',
+        xaxis_title='Country',
+        yaxis_title='Contribution to Ladder Score',
+        xaxis_tickangle=45,
+        height=800,
+        legend_title='Contributing Factors',
+        showlegend=True
+    )
+
+    # Display the plot in Streamlit
+    st.plotly_chart(fig, use_container_width=True)
+
+
