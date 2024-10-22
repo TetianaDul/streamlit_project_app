@@ -850,8 +850,8 @@ if page == pages[3]:
 #On the prediction page (page [4])
 if page == pages[4]:
     
-    st.title('Hello, Streamlit! Whats UUUUP')
-    
+    st.header('Predictions')
+
     from sklearn.ensemble import RandomForestRegressor
 
     X_train = pd.read_csv('X_train_encoded.csv')
