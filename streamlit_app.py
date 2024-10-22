@@ -466,12 +466,6 @@ if page == pages[2]:
     # Sort by Ladder score
     whp_2021_report_sorted = whp_2021_report.sort_values(by='Ladder score', ascending=False)
 
-    # Add a slider to select number of top/bottom countries
-    n_countries = st.slider('Select number of top/bottom countries to display', 
-                        min_value=5, 
-                        max_value=20, 
-                        value=10)
-
     # Select top n and bottom n countries
     top_n = whp_2021_report_sorted.head(n_countries)
     bottom_n = whp_2021_report_sorted.tail(n_countries)
