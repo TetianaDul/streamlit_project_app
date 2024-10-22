@@ -904,7 +904,7 @@ if page == pages[5]:
     import streamlit as st
 
     # Title of the page
-    st.title("Conclusion")
+    st.header("Conclusion")
 
     # First expandable box: GDP as a Key Factor
     with st.expander("GDP as a Key Factor"):
@@ -915,7 +915,7 @@ if page == pages[5]:
                 "and healthy life expectancy also influence happiness, as shown in the models.")
     
         # Display image for GDP
-        st.image(r"C:\Users\vladi\Documents\streamlit_project_app\streamlit_project_app\GDP_illus.png")
+        st.image(r"GDP_illus.png")
 
     # Second expandable box: Multiple Factors at Play
     with st.expander("Multiple Factors at Play"):
@@ -929,5 +929,5 @@ if page == pages[5]:
     
 
         # Display images for Multiple Factors. CHANGE THE DIRECTORY TO YOUR OWN
-        st.image(r"C:\Users\vladi\Documents\streamlit_project_app\streamlit_project_app\happy_friends.png")
-        st.image(r"C:\Users\vladi\Documents\streamlit_project_app\streamlit_project_app\friends-having-fun.png")
+        st.image(r"happy_friends.png")
+        st.image(r"friends-having-fun.png")
