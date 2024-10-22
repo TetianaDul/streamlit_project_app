@@ -641,9 +641,6 @@ if page == pages[3]:
         importance_df['Absolute Importance'] = np.abs(importance_df['Importance'])
         importance_df = importance_df.sort_values(by='Absolute Importance', ascending=False)
 
-        # Add a header for the chart section
-        st.header('Feature Importance for Linear Regression')
-
         # Plotting the bar chart in Streamlit
         fig, ax = plt.subplots(figsize=(10, 6)) # Create a figure with the specified size
         ax.barh(importance_df['Feature'], importance_df['Absolute Importance'], color='green')
