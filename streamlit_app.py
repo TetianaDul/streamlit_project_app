@@ -907,27 +907,27 @@ if page == pages[5]:
     st.header("Conclusion")
 
     # First expandable box: GDP as a Key Factor
-    with st.expander("GDP as a Key Factor"):
-        st.write("**A.** GDP is a strong indicator of a country's wealth and plays an important role in people's happiness. "
-                "It often correlates with better access to healthcare, education, and overall quality of life, which can lead to higher happiness scores.")
+    st.subheader("GDP as a Key Factor")
+    st.write("**A.** GDP is a strong indicator of a country's wealth and plays an important role in people's happiness. "
+            "It often correlates with better access to healthcare, education, and overall quality of life, which can lead to higher happiness scores.")
     
-        st.write("**B.** Happiness is a multidimensional concept. While GDP is important, it’s not the only factor. Other elements like social support, freedom to make life choices, "
-                "and healthy life expectancy also influence happiness, as shown in the models.")
+    st.write("**B.** Happiness is a multidimensional concept. While GDP is important, it’s not the only factor. Other elements like social support, freedom to make life choices, "
+            "and healthy life expectancy also influence happiness, as shown in the models.")
     
-        # Display image for GDP
-        st.image(r"GDP_illus.png")
+    # Display image for GDP
+    st.image(r"GDP_illus.png")
 
     # Second expandable box: Multiple Factors at Play
-    with st.expander("Multiple Factors at Play"):
-        st.write("**A.** Countries with high happiness scores may still face issues like depression or social inequality. "
-                "This highlights the complexity of well-being—happiness has many faces, and high GDP alone doesn’t guarantee emotional or mental well-being.")
+    st.subheader("Multiple Factors at Play")
+    st.write("**A.** Countries with high happiness scores may still face issues like depression or social inequality. "
+            "This highlights the complexity of well-being—happiness has many faces, and high GDP alone doesn’t guarantee emotional or mental well-being.")
     
-        st.write("**B.** Happiness can be affected by cultural factors, mental health, and other social dynamics, "
-                "meaning that economic success does not always equate to emotional fulfillment for everyone.")
+    st.write("**B.** Happiness can be affected by cultural factors, mental health, and other social dynamics, "
+            "meaning that economic success does not always equate to emotional fulfillment for everyone.")
     
-        st.write("**C.** In short, while GDP contributes to happiness, it is essential to recognize the diverse factors that influence people’s well-being, making it a nuanced and complex topic.")
+    st.write("**C.** In short, while GDP contributes to happiness, it is essential to recognize the diverse factors that influence people’s well-being, making it a nuanced and complex topic.")
     
 
-        # Display images for Multiple Factors. CHANGE THE DIRECTORY TO YOUR OWN
-        st.image(r"happy_friends.png")
-        st.image(r"friends-having-fun.png")
+    # Display images for Multiple Factors. CHANGE THE DIRECTORY TO YOUR OWN
+    st.image(r"happy_friends.png")
+    st.image(r"friends-having-fun.png")
