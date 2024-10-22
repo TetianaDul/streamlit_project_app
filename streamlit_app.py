@@ -529,7 +529,7 @@ if page == pages[3]:
     st.header('Machine Learning Models')
 
     # Add the objective
-    st.header("Objective")
+    st.subheader("Objective")
     st.write("The goal of this analysis was to identify the best performing machine learning model for predicting world happiness levels in every country using various machine learning techniques.")
 
     # Add an expander for model selection
