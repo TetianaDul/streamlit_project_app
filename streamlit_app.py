@@ -446,8 +446,8 @@ if page == pages[2]:
     st.plotly_chart(fig, use_container_width=True)
 
 
-    #add factor contribution to hapiness in 2021
-    st.subheader('Contribution of different factors to hapiness in 2021')
+    #add factor contribution to happiness in 2021
+    st.subheader('Contribution of different factors to happiness in 2021')
 
     import streamlit as st
     import pandas as pd
@@ -498,5 +498,351 @@ if page == pages[2]:
 
     # Display the plot in Streamlit
     st.plotly_chart(fig, use_container_width=True)
+
+
+#On the modelling page (page [3])
+if page == pages[3]:
+    import streamlit as st
+    import pandas as pd
+    import numpy as np
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    from sklearn.linear_model import LinearRegression
+    from sklearn.preprocessing import StandardScaler
+    from sklearn.ensemble import RandomForestRegressor
+    from sklearn.impute import SimpleImputer
+    from sklearn.linear_model import Lasso
+    from sklearn.tree import DecisionTreeRegressor
+    from sklearn.model_selection import GridSearchCV
+
+    # Load your datasets
+    X_train = pd.read_csv('X_train_encoded.csv')
+    y_train = pd.read_csv('y_train.csv')
+    X_test = pd.read_csv('X_test_encoded.csv')
+    y_test = pd.read_csv('y_test.csv')
+
+    # Title of the app
+    st.title('Machine Learning Models')
+
+    # Add the objective
+    st.header("Objective")
+    st.write("The goal of this analysis was to identify the best performing machine learning model for predicting world happiness levels in every country using various machine learning techniques.")
+
+    # Add an expander for model selection
+    with st.expander("Models Chosen", expanded=False):
+        st.write("""
+        We evaluated and compared the performance of six models to determine which model best captures the patterns in the data and provides accurate predictions on unseen data:
+        - Linear Regression
+        - Random Forest
+        - Lasso
+        - Decision Tree Regressor
+        """)
+
+        st.subheader("Execution of Models")
+        st.write("""
+        - Model instantiation
+        - Training the model on the full training set X_train and y_train (80%, 20%)
+        - Making predictions on the test set X_test and y_test
+        - Evaluating the performance of the models using appropriate metrics
+        - Interpreting the coefficients to understand the impact of each feature on the target variable
+        - Visualizing and analyzing the results.
+        """)
+
+    # Add a new expander for machine learning models
+    with st.expander("Machine Learning Models", expanded=False):
+        st.subheader("Metric Comparison Chart")
+    
+        # Creating a DataFrame for metrics
+        metrics_data = {
+            "Model": [
+                "Linear Regression", 
+                "Random Forest Regressor", 
+                "Lasso", 
+                "Decision Tree Regressor"
+            ],
+            "R² Score (train)": [
+                "74.6%", 
+                "85.1%", 
+                "62.2%", 
+                "90%"
+            ],
+            "R² Score (test)": [
+                "73.9%", 
+                "80.5%", 
+                "62.9%", 
+                "75%"
+            ],
+            "MAE": [
+                "0.450", 
+                "0.389", 
+                "0.569", 
+                "0.411"
+            ],
+            "MSE": [
+                "0.337", 
+                "0.251", 
+                "0.480", 
+                "0.321"
+            ],
+            "RMSE": [
+                "0.580", 
+                "0.501", 
+                "0.693", 
+                "0.321"
+            ],
+            "Important Features": [
+                "GDP, Social support, Life expectancy", 
+                "GDP, Life expectancy, Social support", 
+                "GDP, Life expectancy", 
+                "GDP, Life expectancy, Social support"
+            ]
+        }
+
+        metrics_df = pd.DataFrame(metrics_data)
+        st.table(metrics_df)  # Display the DataFrame as a table
+
+        # Key insights
+        st.subheader("Key Insights")
+        st.write("""
+        - **Decision Tree Regressor**: High training R² (90%), lower test R² (75%) – signs of overfitting  
+        - **Random Forest Regressor**: Consistent performance, 85.1% (train) and 80.5% (test) – accurate for unseen data  
+        - **Lasso**: Lowest R² on test set (62.9%) – unreliable for predicting happiness  
+        - **Linear Regression**: Similar R² (~74%) for both training and test – lower than Random Forest
+        """)
+
+    # Add a new expander for feature importance visualization
+    with st.expander("Importance Bar Visualization", expanded=False):
+        # A. Linear Regression Feature Importance
+        st.subheader("A. Linear Regression Feature Importance")
+
+        # Apply standardization using StandardScaler
+        sc = StandardScaler()
+        num = ['Logged GDP per capita', 'Social support', 'Healthy life expectancy', 'Freedom to make life choices', 'Generosity', 'Perceptions of corruption']
+
+        X_train[num] = sc.fit_transform(X_train[num])
+        X_test[num] = sc.transform(X_test[num])
+
+        # Instantiate a LinearRegression model and train it on the training data
+        regressor = LinearRegression()
+        regressor.fit(X_train, y_train)
+
+        # Get the feature names and coefficients
+        feature_names = X_train.columns
+        coefficients = regressor.coef_.flatten() # Flatten coefficients to 1D if needed
+
+        # Create a DataFrame for easy plotting
+        importance_df = pd.DataFrame({'Feature': feature_names, 'Importance': coefficients})
+
+        # Sort the DataFrame by absolute importance
+        importance_df['Absolute Importance'] = np.abs(importance_df['Importance'])
+        importance_df = importance_df.sort_values(by='Absolute Importance', ascending=False)
+
+        # Add a header for the chart section
+        st.header('Feature Importance for Linear Regression')
+
+        # Plotting the bar chart in Streamlit
+        fig, ax = plt.subplots(figsize=(10, 6)) # Create a figure with the specified size
+        ax.barh(importance_df['Feature'], importance_df['Absolute Importance'], color='green')
+        ax.set_xlabel('Importance')
+        ax.set_title('Feature Importance for Linear Regression')
+        ax.invert_yaxis()  # To display the most important feature at the top
+
+        # Use Streamlit's pyplot method to display the plot
+        st.pyplot(fig)
+
+    
+        # B. Random Forest Feature Importance
+        st.subheader("B. Random Forest Feature Importance")
+
+        # Train the Random Forest model
+        model_forest_opt = RandomForestRegressor(max_depth=5, random_state=42)
+        model_forest_opt.fit(X_train, y_train.values.ravel())  # Fit the model
+
+        # Extract feature importances
+        importances = model_forest_opt.feature_importances_
+
+        # Create a DataFrame for feature names and their importances
+        feature_importance_df = pd.DataFrame({
+            'Feature': feature_names,
+            'Importance': importances
+        })
+
+        # Sort the DataFrame by importance
+        feature_importance_df = feature_importance_df.sort_values(by='Importance', ascending=False)
+
+        # Plot the feature importances for Random Forest
+        plt.figure(figsize=(10, 6))
+        sns.barplot(x='Importance', y='Feature', data=feature_importance_df, palette='viridis')
+
+        # Add labels and title
+        plt.title('Feature Importance in Random Forest Model')
+        plt.xlabel('Importance')
+        plt.ylabel('Feature')
+
+        # Display the plot in the Streamlit app
+        st.pyplot(plt)
+
+        # C. Lasso Feature Importance
+        st.subheader("C. Lasso Feature Importance")
+
+        # Impute missing values using the median for the training set
+        imputer = SimpleImputer(strategy='median')
+        X_train_imputed = imputer.fit_transform(X_train)  # Fit on X_train
+        X_test_imputed = imputer.transform(X_test)  # Apply the same transformation to X_test
+
+        # Initialize and fit the Lasso model
+        lasso = Lasso(alpha=0.1)  # Adjust the alpha as necessary
+        lasso.fit(X_train_imputed, y_train)
+
+        # Get the coefficients for Lasso
+        coefficients = pd.Series(lasso.coef_, index=X_train.columns)
+
+        # Plotting Lasso feature importance
+        plt.figure(figsize=(10, 6))
+        sns.barplot(x=coefficients.values, y=coefficients.index)
+        plt.title('Feature Importance (Lasso Coefficients)')
+        plt.xlabel('Importance')
+
+        # Display the plot in the Streamlit app
+        st.pyplot(plt)
+
+        # D. Decision Tree Regressor Feature Importance
+        st.subheader("D. Decision Tree Regressor Feature Importance")
+
+        # Define a range of max_depth values to test
+        param_grid = {'max_depth': list(range(1, 21))}  # Testing depths from 1 to 20
+
+        # Initialize the Decision Tree Regressor
+        dt_regressor = DecisionTreeRegressor(random_state=42)
+
+        # Set up GridSearch with cross-validation
+        grid_search = GridSearchCV(
+            estimator=dt_regressor,
+            param_grid=param_grid,
+            cv=5,  # 5-fold cross-validation
+            scoring='r2',
+            n_jobs=-1
+        )
+
+        # Fit GridSearch to find the best max_depth
+        grid_search.fit(X_train, y_train.values.ravel())
+
+        # Extract the best max_depth
+        best_max_depth = grid_search.best_params_['max_depth']
+        st.write(f"Optimal max_depth: {best_max_depth}")
+
+        # Train the Decision Tree Regressor with the optimal max_depth
+        model = DecisionTreeRegressor(max_depth=best_max_depth, random_state=42)
+        model.fit(X_train, y_train)
+
+        # Make predictions on the training and test sets
+        y_train_pred = model.predict(X_train)
+        y_test_pred = model.predict(X_test)
+
+        # Feature importance plot
+        feature_importances = model.feature_importances_
+
+        # Barplot of feature importance
+        plt.figure(figsize=(10, 6))
+        sns.barplot(x=feature_importances, y=feature_names, palette='viridis')
+        plt.title("Feature Importance in Decision Tree Regressor")
+        plt.xlabel("Importance")
+        plt.ylabel("Features")
+
+        # Display the plot in the Streamlit app
+        st.pyplot(plt)
+	        # Insights at the bottom of the box
+        st.subheader("Insights")
+        st.write("""
+        - Key factors for most models: GDP, Social Support, and Life Expectancy  
+        - Lasso: Penalizes most factors, giving mostly importance to GDP
+        - Random Forest, Decision Tree: Focus more on GDP and Life Expectancy, suggesting a prediction of general, reliable trends  
+        """)
+
+    # Add a new expander for scatterplot visualization
+    with st.expander("Scatterplot for Ladder Score Visualization", expanded=False):
+        # A. Linear Regression
+        st.subheader("A. Linear Regression")
+
+        # Display the scatter plot between predicted and true values
+        pred_test = regressor.predict(X_test)
+    
+        # Create the scatter plot for Linear Regression
+        fig = plt.figure(figsize=(10, 10))
+        plt.scatter(pred_test, y_test, c='green', label='Predicted vs True')
+    
+        # Add the y = x line
+        plt.plot((y_test.min(), y_test.max()), (y_test.min(), y_test.max()), color='red', label='y = x')
+    
+        plt.xlabel("Predicted Values")
+        plt.ylabel("True Values")
+        plt.title('Linear Regression for Ladder Score')
+        plt.legend()
+    
+        # Display the plot in the Streamlit app
+        st.pyplot(fig)
+
+        # B. Random Forest
+        st.subheader("B. Random Forest")
+
+        # Display the scatter plot between predicted and true values
+        pred_test_rf = model_forest_opt.predict(X_test)
+
+        # Create the scatter plot for Random Forest
+        fig_rf = plt.figure(figsize=(10, 10))
+        plt.scatter(pred_test_rf, y_test, c='green', label='Predicted vs True')
+
+        # Add the y = x line
+        plt.plot((y_test.min(), y_test.max()), (y_test.min(), y_test.max()), color='red', label='y = x')
+
+        plt.xlabel("Predicted Values")
+        plt.ylabel("True Values")
+        plt.title('Random Forest for Ladder Score')
+        plt.legend()
+
+        # Display the plot in the Streamlit app
+        st.pyplot(fig_rf)
+
+        # C. Lasso
+        st.subheader("C. Lasso")
+
+        # Make predictions using the Lasso model
+        y_test_pred = lasso.predict(X_test_imputed)
+
+        # Scatter plot for Lasso predictions
+        plt.figure(figsize=(6, 6))
+        plt.scatter(y_test, y_test_pred, alpha=0.6)
+        plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], color='red', linestyle='--')  # Ideal line
+        plt.xlabel('True Values')
+        plt.ylabel('Predicted Values')
+        plt.title('True vs Predicted Values (Test Set - Lasso)')
+    
+        # Display the plot in the Streamlit app
+        st.pyplot(plt)
+
+        # D. Decision Tree Regressor
+        st.subheader("D. Decision Tree Regressor")
+
+        # Make predictions using the Decision Tree model
+        y_test_pred_dt = model.predict(X_test)
+
+        # Scatter plot for Decision Tree predictions
+        plt.figure(figsize=(6, 6))
+        plt.scatter(y_test, y_test_pred_dt, alpha=0.6)
+        plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], color='red', linestyle='--')  # Ideal line
+        plt.xlabel('Test Values')
+        plt.ylabel('Predicted Values')
+        plt.title('Test vs Predicted Values (Decision Tree)')
+    
+        # Display the plot in the Streamlit app
+        st.pyplot(plt)
+
+        # Key Insights at the bottom of the box
+        st.subheader("Key Insights")
+        st.write("""
+        - Even though they all perform well, it is clear Lasso has the most difficulties.
+        - They all present outliers. Other factors have an impact that the models can't predict.
+        - Random Forest has the best results.
+        """)
 
 
