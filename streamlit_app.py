@@ -440,7 +440,6 @@ if page == pages[2]:
             'xanchor': 'center',  # This ensures the center of the title is at the x position
             'yanchor': 'top'      # This ensures the top of the title is at the y position
         },
-        title_font_size=24,
         margin=dict(t=100)
     )
 
