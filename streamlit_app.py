@@ -847,3 +847,46 @@ if page == pages[3]:
         """)
 
 
+#On the prediction page (page [4])
+if page == pages[4]:
+    
+    st.title('Hello, Streamlit! Whats UUUUP')
+
+    # Dropping all features except of the most important ones
+    X_train.drop(['Country_encoded','Generosity','Perceptions of corruption','year'],axis=1,inplace=True)
+    X_test.drop(['Country_encoded','Generosity','Perceptions of corruption','year'],axis=1,inplace=True)
+
+    # Model fit and predictions
+    RFR=RandomForestRegressor(max_depth=5, random_state=42)
+    RFR.fit(X_train,y_train)
+    predictions=RFR.predict(X_test)
+
+    # Showing the most important feature importances
+    feat_df=pd.DataFrame(RFR.feature_importances_,index=X_train.columns,columns=['Values'])
+    st.subheader("Feature Importances")
+    # Body text
+    st.text("We chose the RFR model, because it has the best score compared \n to the others. The mot important feature importances are displayed in the \n following graph")
+    sorted_feat_df = feat_df.sort_values(by='Values',ascending=False)
+
+    plt.figure(figsize=(8, 6))
+    sns.barplot(x=sorted_feat_df.index[:4], y=sorted_feat_df['Values'][:4])
+    plt.title('Feature Importances of the model')
+    plt.ylabel('Degree of Importance')
+    plt.xlabel('Importances')
+    plt.show()
+    st.pyplot(plt)
+
+    gdp_per_capita = st.slider("GDP per Capita", 0.0, 10.0, 9.4)
+    social_support = st.slider("Social Support", 0.0, 1.0, 0.8)
+    healthy_life_expectancy = st.slider("Healthy Life Expectancy", 0.0, 100.0, 63.8)
+    freedom_to_make_choices = st.slider("Freedom to Make Life Choices", 0.0, 1.0, 0.7)
+
+    # Create a DataFrame with the input values
+    user_input = pd.DataFrame({'Logged GDP per capita': [gdp_per_capita],
+        'Social support': [social_support],
+        'Healthy life expectancy': [healthy_life_expectancy],
+        'Freedom to make life choices': [freedom_to_make_choices]})
+    # Make prediction based on user input
+    prediction = RFR.predict(user_input)
+    st.subheader("Predicted Life Ladder Score:")
+    st.write("Prediction:", prediction[0])
