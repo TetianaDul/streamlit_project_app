@@ -416,21 +416,6 @@ if page == pages[2]:
     import streamlit as st
     import plotly.express as px
 
-    # Remove extra spacing and padding
-    st.markdown("""
-        <style>
-            .block-container {
-                padding-top: 1rem;
-                padding-bottom: 0rem;
-                padding-left: 1rem;
-                padding-right: 1rem;
-            }
-            .element-container {
-                margin: 0;
-            }
-        </style>
-    """, unsafe_allow_html=True)
-
     # Create the visualization
     df_sorted = df.sort_values(by='year')
 
@@ -445,8 +430,7 @@ if page == pages[2]:
         title="World Happiness Ladder Score by Country Over Time"
     )
     # Make the figure bigger by updating layout
-    fig.update_layout(
-        width=1800,  
+    fig.update_layout( 
         height=1000,
         title={
             'text': "World Happiness Ladder Score by Country Over Time",
@@ -455,7 +439,7 @@ if page == pages[2]:
             'xanchor': 'center',  
             'yanchor': 'top'  
         },
-        margin=dict(t=80, l=0, r=0, b=0),  # Minimized margins
+        margin=dict(t=80, l=20, r=20, b=20),  # Minimized margins
         )
 
     # Display the plot with expanded width
