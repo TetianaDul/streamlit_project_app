@@ -872,7 +872,7 @@ if page == pages[4]:
     feat_df=pd.DataFrame(RFR.feature_importances_,index=X_train.columns,columns=['Values'])
     st.subheader("Feature Importances")
     # Body text
-    st.text("We chose the RFR model, because it has the best score compared \nto the others. The mot important feature importances are displayed in the \nfollowing graph")
+    st.text("We chose the RFR model, because it has the best evaluation scores compared to the \nothers. The most important features are displayed in the following graph:")
     sorted_feat_df = feat_df.sort_values(by='Values',ascending=False)
 
     plt.figure(figsize=(8, 6))
@@ -897,3 +897,37 @@ if page == pages[4]:
     prediction = RFR.predict(user_input)
     st.subheader("Predicted Life Ladder Score:")
     st.write("Prediction:", prediction[0])
+
+
+#On the conclusions page (page [5])
+if page == pages[5]:
+    import streamlit as st
+
+    # Title of the page
+    st.title("Conclusion")
+
+    # First expandable box: GDP as a Key Factor
+    with st.expander("GDP as a Key Factor"):
+        st.write("**A.** GDP is a strong indicator of a country's wealth and plays an important role in people's happiness. "
+                "It often correlates with better access to healthcare, education, and overall quality of life, which can lead to higher happiness scores.")
+    
+        st.write("**B.** Happiness is a multidimensional concept. While GDP is important, it’s not the only factor. Other elements like social support, freedom to make life choices, "
+                "and healthy life expectancy also influence happiness, as shown in the models.")
+    
+        # Display image for GDP
+        st.image(r"C:\Users\vladi\Documents\streamlit_project_app\streamlit_project_app\GDP_illus.png")
+
+    # Second expandable box: Multiple Factors at Play
+    with st.expander("Multiple Factors at Play"):
+        st.write("**A.** Countries with high happiness scores may still face issues like depression or social inequality. "
+                "This highlights the complexity of well-being—happiness has many faces, and high GDP alone doesn’t guarantee emotional or mental well-being.")
+    
+        st.write("**B.** Happiness can be affected by cultural factors, mental health, and other social dynamics, "
+                "meaning that economic success does not always equate to emotional fulfillment for everyone.")
+    
+        st.write("**C.** In short, while GDP contributes to happiness, it is essential to recognize the diverse factors that influence people’s well-being, making it a nuanced and complex topic.")
+    
+
+        # Display images for Multiple Factors. CHANGE THE DIRECTORY TO YOUR OWN
+        st.image(r"C:\Users\vladi\Documents\streamlit_project_app\streamlit_project_app\happy_friends.png")
+        st.image(r"C:\Users\vladi\Documents\streamlit_project_app\streamlit_project_app\friends-having-fun.png")
