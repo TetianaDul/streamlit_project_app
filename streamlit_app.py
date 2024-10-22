@@ -115,6 +115,8 @@ if page == pages[1]:
 #page number 3 ([2])
 if page == pages[2]:
 
+    st.header("Data Visualization")
+
     def create_plot(year):
         # Filter data for the selected year
         df_year = df[df['year'] == year]
@@ -516,6 +518,7 @@ if page == pages[3]:
     from sklearn.tree import DecisionTreeRegressor
     from sklearn.model_selection import GridSearchCV
 
+
     # Load your datasets
     X_train = pd.read_csv('X_train_encoded.csv')
     y_train = pd.read_csv('y_train.csv')
@@ -523,7 +526,7 @@ if page == pages[3]:
     y_test = pd.read_csv('y_test.csv')
 
     # Title of the app
-    st.title('Machine Learning Models')
+    st.header('Machine Learning Models')
 
     # Add the objective
     st.header("Objective")
