@@ -416,6 +416,24 @@ if page == pages[2]:
     import streamlit as st
     import plotly.express as px
 
+    # Set page to wide mode and remove padding
+    st.set_page_config(layout="wide")
+
+    # Remove extra spacing and padding
+    st.markdown("""
+        <style>
+            .block-container {
+                padding-top: 1rem;
+                padding-bottom: 0rem;
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            .element-container {
+                margin: 0;
+            }
+        </style>
+    """, unsafe_allow_html=True)
+
     # Create the visualization
     df_sorted = df.sort_values(by='year')
 
@@ -431,17 +449,19 @@ if page == pages[2]:
     )
     # Make the figure bigger by updating layout
     fig.update_layout(
-        width=1400,  # Increase width
-        height=800,  # Increase height
+        width=1800,  
+        height=1000,
         title={
             'text': "World Happiness Ladder Score by Country Over Time",
-            'y':0.95,  # This moves the title up
-            'x':0.5,   # This centers the title
-            'xanchor': 'center',  # This ensures the center of the title is at the x position
-            'yanchor': 'top'      # This ensures the top of the title is at the y position
+            'y':0.95,  
+            'x':0.5,   
+            'xanchor': 'center',  
+            'yanchor': 'top'  
         },
-        margin=dict(t=100)
-    )
+        margin=dict(t=80, l=0, r=0, b=0),  # Minimized margins
+        paper_bgcolor='rgba(0,0,0,0)',      # Transparent background
+        plot_bgcolor='rgba(0,0,0,0)
+        )
 
     # Display the plot with expanded width
     st.plotly_chart(fig, use_container_width=True)
