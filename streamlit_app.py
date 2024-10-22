@@ -423,10 +423,10 @@ if page == pages[2]:
     st.write("This map shows the World Happiness Ladder Score by country over time.")
 
     # Create the visualization
-    whp_full_sorted = whp_full.sort_values(by='year')
+    df_sorted = df.sort_values(by='year')
 
     fig = px.choropleth(
-        whp_full_sorted,
+        df_sorted,
         locations='Country name',
         locationmode='country names',
         color='Ladder score',
