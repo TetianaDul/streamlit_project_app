@@ -466,12 +466,12 @@ if page == pages[2]:
     # Sort by Ladder score
     whp_2021_report_sorted = whp_2021_report.sort_values(by='Ladder score', ascending=False)
 
-    # Select top n and bottom n countries
-    top_n = whp_2021_report_sorted.head(n_countries)
-    bottom_n = whp_2021_report_sorted.tail(n_countries)
+    # Select top 10 and bottom 10 countries
+    top_10 = whp_2021_report_sorted.head(10)
+    bottom_10 = whp_2021_report_sorted.tail(10)
 
     # Combine top n and bottom n into one DataFrame
-    whp_2021_report_filtered = pd.concat([top_n, bottom_n])
+    whp_2021_report_filtered = pd.concat([top_10, bottom_10])
 
     # Create plotting data
     fig = go.Figure()
@@ -487,7 +487,7 @@ if page == pages[2]:
     # Update layout
     fig.update_layout(
         barmode='stack',
-        title=f'Contribution of Factors to Ladder Score for Top {n_countries} and Bottom {n_countries} Countries',
+        title=f'Contribution of Factors to Ladder Score for Top 10 and Bottom 10 Countries',
         xaxis_title='Country',
         yaxis_title='Contribution to Ladder Score',
         xaxis_tickangle=45,
