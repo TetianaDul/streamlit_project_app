@@ -883,7 +883,7 @@ if page == pages[4]:
     plt.show()
     st.pyplot(plt)
 
-    gdp_per_capita = st.slider("GDP per Capita", 0.0, 10.0, 9.4)
+    gdp_per_capita = st.slider("GDP per Capita", 0.0, 11.0, 9.4)
     social_support = st.slider("Social Support", 0.0, 1.0, 0.8)
     healthy_life_expectancy = st.slider("Healthy Life Expectancy", 0.0, 100.0, 63.8)
     freedom_to_make_choices = st.slider("Freedom to Make Life Choices", 0.0, 1.0, 0.7)
